@@ -1,0 +1,290 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #f5faf6;
+}
+
+/* LAYOUT */
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background: #9ad3eb;
+    border-right: 1px solid  #9ad3eb;
+    padding: 20px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+.main {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.menu {
+    list-style: none;
+}
+
+.menu-item summary {
+    cursor: pointer;
+    padding: 10px;
+    font-weight: 600;
+}
+
+.submenu {
+    list-style: none;
+    padding-left: 15px;
+}
+
+.submenu li {
+    padding: 6px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make menu scrollable */
+.menu {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* Footer section */
+.sidebar-footer {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 12px;
+    margin-top: 12px;
+}
+
+.footer-link {
+    display: block;
+    padding: 10px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #000;
+    transition: background 0.2s;
+}
+
+.footer-link:hover {
+    background: rgba(0,0,0,0.08);
+}
+
+.footer-link.logout {
+    color: #b91c1c;
+}
+
+
+
+
+.search {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 280px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.product-card img {
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.product-card h4 {
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.product-card p {
+    font-weight: 600;
+    color: #ff5722;
+}
+
+.category-summary {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cat-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.slider {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 18px;
+    margin: 30px 0;
+}
+
+.slides {
+    display: flex;
+    gap: 2px;             
+    width: max-content;
+    animation: scroll 18s linear infinite;
+}
+
+.slides img {
+    width: 900px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 16px;
+    flex-shrink: 0;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.badge {
+    position: absolute;
+    background: red;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.product-card.discount {
+    position: relative;
+}
+.footer {
+    margin-top: 50px;
+    padding: 20px;
+    background: #9ad3eb;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    width: 100%;
+}
+
+.chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #16a34a;
+    color: white;
+    padding: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.chatbox {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+}
+
+.chat-header {
+    background: #16a34a;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat-body {
+    padding: 10px;
+    height: 250px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.bot-msg {
+    background: #f1f5f9;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+}
+
+.user-msg {
+    background: #16a34a;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    text-align: right;
+}
+
+.chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    outline: none;
+}
+
+.chat-input button {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}

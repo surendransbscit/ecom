@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">Logo</div>
+
+        <!-- CATEGORY MENU -->
+        <ul class="menu">
+            {% for cat in categories %}
+            <li class="menu-item">
+                <details>
+                    <summary class="category-summary">
+                        <img src="{{ cat.main_image.url }}" class="cat-img">
+                        <strong>{{ cat.name }}</strong>
+                    </summary>
+
+                    <ul class="submenu">
+                        {% for sub in cat.sub_categories.all %}
+                        <li>{{ sub.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </details>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- SIDEBAR FOOTER -->
+        <div class="sidebar-footer">
+            <a href="{% url 'profile' %}" class="footer-link">👤 Profile</a>
+            <a href="{% url 'logout' %}" class="footer-link logout">🚪 Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <h2>Company Name</h2>
+
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="search" placeholder="Search products..." class="search">
+            </div>
+        </header>
+        <div class="slider">
+            <div class="slides">
+                <img src="{% static 'image/top1.png' %}">
+                <img src="{% static 'image/top2.png' %}">
+                <img src="{% static 'image/top1.png' %}">
+                <img src="{% static 'image/top1.png' %}">
+                <img src="{% static 'image/top2.png' %}">
+                <img src="{% static 'image/top1.png' %}">
+                
+            </div>
+        </div>
+
+
+        <h3 class="section-title">Top Discounts Product</h3>
+        <br><br>
+        <div class="products">
+        {% for p in discount_products %}
+            <div class="product-card discount">
+                <span class="badge">{{ p.discount_percent }}% OFF</span>
+                <img src="{{ p.images.first.image.url }}" alt="{{ p.name }}">
+                <h4>{{ p.name }}</h4>
+                <!-- <p>
+                    <del>₹{{ p.price }}</del>
+                    <strong>₹{{ p.discounted_price }}</strong>
+                </p> -->
+            </div>
+        {% endfor %}
+        </div>
+
+        <br><br>
+        <h3 class="section-title">All Time Best Offers</h3>
+        <br><br>
+        <div class="products">
+        {% for p in best_offers %}
+            <div class="product-card">
+                <img src="{{ p.images.first.image.url }}" alt="{{ p.name }}">
+                <h4>{{ p.name }}</h4>
+                <p>₹{{ p.price }}</p>
+                <strong>₹{{ p.discounted_price }}</strong>
+            </div>
+        {% endfor %}
+        </div>
+        <br>
+
+        {% for cat in categories %}
+            {% for sub in cat.sub_categories.all %}
+            <br><br>
+                <h3 class="section-title">{{ sub.name }}</h3>
+                <br><br>
+                <div class="products">
+                    {% for p in sub.products.all|slice:":4" %}
+                    <div class="product-card">
+                        <img src="{{ p.images.first.image.url }}" alt="{{ p.name }}">
+                        <h4>{{ p.name }}</h4>
+                        <p>₹{{ p.price }}</p>
+                        <strong>₹{{ p.discounted_price }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+
+        <!-- PRODUCTS -->
+        <br><br>
+        <section class="products">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                <h4>{{ product.name }}</h4>
+                <p>₹ {{ product.price }}</p>
+                <strong>₹{{ p.discounted_price }}</strong>
+            </div>
+            {% endfor %}
+        </section>
+        <!-- CHATBOT BUTTON -->
+        <div class="chat-toggle" onclick="toggleChat()">💬</div>
+
+        <!-- CHATBOT BOX -->
+        <div class="chatbox" id="chatbox">
+            <div class="chat-header">
+                <span>🤖 Demo ChatGPT</span>
+                <button onclick="toggleChat()">✖</button>
+            </div>
+
+            <div class="chat-body" id="chatBody">
+                <div class="bot-msg">Hi 👋 How can I help you?</div>
+            </div>
+
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Type a message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+        <script>
+            function toggleChat() {
+                const box = document.getElementById("chatbox");
+                box.style.display = box.style.display === "flex" ? "none" : "flex";
+            }
+
+            function sendMessage() {
+                const input = document.getElementById("chatInput");
+                const body = document.getElementById("chatBody");
+
+                if (!input.value.trim()) return;
+
+                body.innerHTML += `<div class="user-msg">${input.value}</div>`;
+
+                setTimeout(() => {
+                    body.innerHTML += `<div class="bot-msg">${getBotReply(input.value)}</div>`;
+                    body.scrollTop = body.scrollHeight;
+                }, 600);
+
+                input.value = "";
+            }
+
+            function getBotReply(msg) {
+                msg = msg.toLowerCase();
+
+                if (msg.includes("price")) return "Prices are shown below each product 💰";
+                if (msg.includes("offer")) return "Check 🎁 Best Offers section!";
+                if (msg.includes("hello")) return "Hello 👋 Welcome to Setese!";
+                if (msg.includes("contact")) return "You can contact us at support@setese.com";
+
+                return "I'm a demo chatbot 🤖. Full AI coming soon!";
+            }
+        </script>
+
+
+
+        <footer class="footer">
+            <p>📍 Chennai, India</p>
+            <p>📞 +91 98765 43210</p>
+            <p>✉️ support@acme.com</p>
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>

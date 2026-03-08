@@ -1,0 +1,135 @@
+body {
+    background: #f4f8f6;
+    font-family: "Inter", sans-serif;
+}
+
+.orders-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.order-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    padding: 20px;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.order-date {
+    font-size: 13px;
+    color: #666;
+}
+
+.status {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* STATUS COLORS */
+.status.placed {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status.shipped {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status.delivered {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status.cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ITEMS */
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.order-item {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.order-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.item-info h4 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.item-info p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* FOOTER */
+.order-footer {
+    margin-top: 15px;
+    text-align: right;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* EMPTY */
+.empty-orders {
+    text-align: center;
+    padding: 50px;
+}
+
+.shop-btn {
+    margin-top: 15px;
+    display: inline-block;
+    padding: 12px 22px;
+    background: #16a34a;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+/* BACK LINK */
+.back-link {
+    margin-top: 25px;
+}
+
+.back-link a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #2563eb;
+}

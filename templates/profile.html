@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-container {
+            width: 420px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 35px 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            color: #fff;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-header img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+        }
+
+        .profile-header h2 {
+            font-weight: 600;
+        }
+
+        .profile-header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .profile-container label {
+            display: none;
+        }
+
+        .profile-container input,
+        .profile-container textarea {
+            width: 100%;
+            padding: 14px 12px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            outline: none;
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 18px;
+        }
+
+        .profile-container textarea {
+            resize: none;
+            height: 90px;
+        }
+
+        .profile-container input::placeholder,
+        .profile-container textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .save-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .errorlist {
+            list-style: none;
+            color: #ffd6d6;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .back-link a {
+            color: #ffd6ff;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+
+    <!-- PROFILE HEADER -->
+    <div class="profile-header">
+        {% if form.instance.pro_image %}
+            <img src="{{ form.instance.pro_image.url }}">
+        {% else %}
+            <img src="{% static 'image/default-user.png' %}">
+        {% endif %}
+
+        <h2>{{ request.user.username }}</h2>
+        <p>{{ request.user.email }}</p>
+    </div>
+
+    <!-- PROFILE FORM -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        {% for field in form %}
+            {{ field.errors }}
+            {{ field }}
+        {% endfor %}
+
+        <button class="save-btn">Save Profile</button>
+    </form>
+    <a href="{% url 'cart' %}">🛒 My Cart</a><br>
+    <a href="{% url 'my_orders' %}">📦 My Orders</a>
+
+    <div class="back-link">
+        <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+    </div>
+
+</div>
+
+</body>
+</html>

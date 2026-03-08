@@ -1,16 +1,158 @@
-{% extends 'base.html' %}
-{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
 
-<h2>{{ product.name }}</h2>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: #f5f6fa;
+        }
 
-<div class="gallery">
-    {% for img in images %}
-        <img src="{{ img.image.url }}">
-    {% endfor %}
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            gap: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .images {
+            flex: 1;
+        }
+
+        .main-img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .thumbs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbs img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid #eee;
+        }
+
+        .details {
+            flex: 1;
+        }
+
+        .details h2 {
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 22px;
+            margin: 15px 0;
+        }
+
+        .price del {
+            color: #999;
+            margin-right: 10px;
+        }
+
+        .price strong {
+            color: #27ae60;
+        }
+
+        .desc {
+            margin: 20px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .cart-btn {
+            background: #6c5ce7;
+            color: #fff;
+        }
+
+        .buy-btn {
+            background: #ff7675;
+            color: #fff;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- LEFT: IMAGES -->
+    <div class="images">
+        <img src="{{ images.first.image.url }}" class="main-img" id="mainImage">
+
+        <div class="thumbs">
+            {% for img in images %}
+                <img src="{{ img.image.url }}" onclick="changeImage(this.src)">
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- RIGHT: DETAILS -->
+    <div class="details">
+        <h2>{{ product.name }}</h2>
+
+        <div class="price">
+            {% if product.discount_percent %}
+                <del>₹{{ product.price }}</del>
+                <strong>₹{{ product.discounted_price }}</strong>
+                <span> ({{ product.discount_percent }}% OFF)</span>
+            {% else %}
+                <strong>₹{{ product.price }}</strong>
+            {% endif %}
+        </div>
+
+        <p class="desc">{{ product.description }}</p>
+
+        <div class="actions">
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">
+                Add to Cart
+            </a>
+
+            <a href="{% url 'dashboard' %}">
+                <button class="btn buy-btn">← Continue Shopping</button>
+            </a>
+        </div>
+    </div>
+
 </div>
 
-<p>{{ product.description }}</p>
-<p>Price: ₹ {{ product.price }}</p>
-<p>Stock: {{ product.stock }}</p>
+<script>
+    function changeImage(src) {
+        document.getElementById("mainImage").src = src;
+    }
+</script>
 
-{% endblock %}
+</body>
+</html>

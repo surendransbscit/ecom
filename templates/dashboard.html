@@ -12,7 +12,11 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-        <div class="logo">Logo</div>
+        <div class="logo-box">
+            <img src="{% static 'image/logo.jpg' %}" alt="Logo" class="logo-img" style="width: 40px;">
+            <div class="logo-text">
+            </div>
+        </div>        
 
         <!-- CATEGORY MENU -->
         <ul class="menu">
@@ -36,6 +40,8 @@
 
         <!-- SIDEBAR FOOTER -->
         <div class="sidebar-footer">
+            <a href="{% url 'cart' %}" class="footer-link">🛒 My Cart</a>
+            <a href="{% url 'my_orders' %}" class="footer-link">📦 My Orders</a>
             <a href="{% url 'profile' %}" class="footer-link">👤 Profile</a>
             <a href="{% url 'logout' %}" class="footer-link logout">🚪 Logout</a>
         </div>
@@ -46,7 +52,7 @@
 
         <!-- TOP BAR -->
         <header class="topbar">
-            <h2>Company Name</h2>
+            <h2>Siva Sakthi Agro</h2>
 
             <div class="search-box">
                 <span class="search-icon">🔍</span>
@@ -72,7 +78,9 @@
         {% for p in discount_products %}
             <div class="product-card discount">
                 <span class="badge">{{ p.discount_percent }}% OFF</span>
-                <img src="{{ p.images.first.image.url }}" alt="{{ p.name }}">
+                <a href="{% url 'product_detail' p.id %}">
+                    <img src="{{ p.images.first.image.url }}" alt="{{ p.name }}">
+                </a>                
                 <h4>{{ p.name }}</h4>
                 <!-- <p>
                     <del>₹{{ p.price }}</del>
@@ -87,7 +95,7 @@
         <br><br>
         <div class="products">
         {% for p in best_offers %}
-            <div class="product-card">
+            <div class="product-card small">
                 <img src="{{ p.images.first.image.url }}" alt="{{ p.name }}">
                 <h4>{{ p.name }}</h4>
                 <p>₹{{ p.price }}</p>
@@ -105,7 +113,9 @@
                 <div class="products">
                     {% for p in sub.products.all|slice:":4" %}
                     <div class="product-card">
-                        <img src="{{ p.images.first.image.url }}" alt="{{ p.name }}">
+                        <a href="{% url 'product_detail' p.id %}">
+                            <img src="{{ p.images.first.image.url }}" alt="{{ p.name }}">
+                        </a>                        
                         <h4>{{ p.name }}</h4>
                         <p>₹{{ p.price }}</p>
                         <strong>₹{{ p.discounted_price }}</strong>
@@ -121,7 +131,9 @@
         <section class="products">
             {% for product in products %}
             <div class="product-card">
-                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                </a>
                 <h4>{{ product.name }}</h4>
                 <p>₹ {{ product.price }}</p>
                 <strong>₹{{ p.discounted_price }}</strong>

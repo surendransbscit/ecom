@@ -5,17 +5,27 @@ from .models import UserProfile
 
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'placeholder': 'Username'})
+        self.fields['email'].widget.attrs.update({'placeholder': 'Email'})
+        self.fields['password1'].widget.attrs.update({'placeholder': 'Password'})
+        self.fields['password2'].widget.attrs.update({'placeholder': 'Confirm Password'})
+
 
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['phone', 'address', 'pro_image']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['phone'].widget.attrs.update({'placeholder': 'Phone Number'})
+        self.fields['address'].widget.attrs.update({'placeholder': 'Adress'})
 
 
 class SearchForm(forms.Form):

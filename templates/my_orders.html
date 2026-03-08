@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+    <link rel="stylesheet" href="{% static 'css/orders.css' %}">
+</head>
+<body>
+
+<div class="orders-container">
+
+    <h2 class="page-title">📦 My Orders</h2>
+
+    {% if orders %}
+        {% for order in orders %}
+        <div class="order-card">
+
+            <!-- ORDER HEADER -->
+            <div class="order-header">
+                <div>
+                    <strong>Order #{{ order.id }}</strong><br>
+                    <span class="order-date">
+                        {{ order.ordered_at|date:"d M Y, h:i A" }}
+                    </span>
+                </div>
+
+                <span class="status {{ order.status|lower }}">
+                    {{ order.status }}
+                </span>
+            </div>
+
+            <!-- PRODUCTS -->
+            <div class="order-items">
+                {% for item in order.items.all %}
+                <div class="order-item">
+
+                    <img src="{{ item.product.images.first.image.url }}"
+                         alt="{{ item.product.name }}">
+
+                    <div class="item-info">
+                        <h4>{{ item.product.name }}</h4>
+                        <p>Qty: {{ item.quantity }}</p>
+                        <p>₹{{ item.price }}</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- FOOTER -->
+            <div class="order-footer">
+                <h3>Total: ₹{{ order.total_price }}</h3>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="empty-orders">
+            <p>😔 No orders yet</p>
+            <a href="{% url 'dashboard' %}" class="shop-btn">
+                Start Shopping
+            </a>
+        </div>
+    {% endif %}
+
+    <div class="back-link">
+        <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+    </div>
+
+</div>
+
+</body>
+</html>

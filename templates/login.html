@@ -1,6 +1,142 @@
-<form method="post">
-    {% csrf_token %}
-    <input name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <button>Login</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 360px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            color: #fff;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 12px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            outline: none;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            pointer-events: none;
+            transition: 0.3s;
+            background: transparent;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -8px;
+            left: 10px;
+            font-size: 12px;
+            background: #764ba2;
+            padding: 0 6px;
+            border-radius: 4px;
+            color: #fff;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .extra {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .extra a {
+            color: #ffd6ff;
+            text-decoration: none;
+        }
+
+        .extra a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Welcome Back 👋</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <input type="text" name="username" required placeholder=" ">
+            <label>Username</label>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" required placeholder=" ">
+            <label>Password</label>
+        </div>
+
+        <button class="login-btn">Login</button>
+    </form>
+
+    <div class="extra">
+        <p>Don’t have an account?
+            <a href="{% url 'register' %}">Register</a>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

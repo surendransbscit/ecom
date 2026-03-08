@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import (
     MainCategory, SubCategory, 
-    Product, ProductImage, Cart, CartItem
+    Product, ProductImage, Cart, CartItem, UserProfile,Order, OrderItem,
 )
 from .forms import RegisterForm, UserProfileForm, SearchForm
 from django.db.models import Subquery, OuterRef
@@ -63,32 +63,92 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('dashboard')
+    return redirect('login')
 
 
 @login_required
 def profile_view(request):
-    profile = request.user.userprofile
-    form = UserProfileForm(instance=profile)
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect('profile')
+    else:
+        form = UserProfileForm(instance=profile)
 
     return render(request, 'profile.html', {'form': form})
 
 
 @login_required
 def add_to_cart(request, product_id):
-    cart = request.user.cart
+    cart, _ = Cart.objects.get_or_create(user=request.user)
     product = get_object_or_404(Product, id=product_id)
 
     item, created = CartItem.objects.get_or_create(
-        cart=cart, product=product
+        cart=cart,
+        product=product
     )
+
     if not created:
         item.quantity += 1
-    item.save()
+        item.save()
+
     return redirect('dashboard')
+
+
+@login_required
+def cart_view(request):
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    items = cart.items.select_related('product')
+
+    total = sum(item.product.discounted_price() * item.quantity for item in items)
+
+    return render(request, 'cart.html', {
+        'cart': cart,
+        'items': items,
+        'total': total
+    })
+
+
+@login_required
+def place_order(request):
+    cart = request.user.cart
+    items = cart.items.select_related('product')
+
+    if not items.exists():
+        return redirect('cart')
+
+    total = sum(item.product.discounted_price() * item.quantity for item in items)
+
+    order = Order.objects.create(
+        user=request.user,
+        total_price=total,
+        status='PLACED'
+    )
+
+    for item in items:
+        OrderItem.objects.create(
+            order=order,
+            product=item.product,
+            quantity=item.quantity,
+            price=item.product.discounted_price()
+        )
+
+    items.delete()
+
+    return redirect('my_orders')
+
+
+@login_required
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user).prefetch_related('items__product')
+
+    return render(request, 'my_orders.html', {
+        'orders': orders
+    })
+
+
